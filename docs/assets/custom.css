@@ -1,0 +1,5 @@
+.md-typeset { font-size: .78rem; line-height: 1.85; }
+.md-typeset .admonition.example { border-color: #c84646; }
+.md-typeset .admonition.example > .admonition-title { background: #faeaea; }
+.md-typeset mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; padding: .35rem 0; }
+@media (max-width: 760px) { .md-typeset { font-size: .75rem; } }
