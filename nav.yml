@@ -1,19 +1,5 @@
 nav:
   - 首页: index.md
-  - "1. 数集与复数": 01-number-sets.md
-  - "2. 复数的表示": 02-representation.md
-  - "3. 复数的运算与几何意义": 03-geometry.md
-  - "4. 复对数": 04-logarithm.md
-  - "5. 计算 $\\ln(-1)$": 05-log-minus-one.md
-  - "6. 复数幂与多值性": 06-powers.md
-  - "7. 正弦函数与余弦函数的无穷乘积": 07-infinite-products.md
-  - "8. 欧拉公式与指数函数展开": 08-euler.md
-  - "9. 连续函数的局部非零性": 09-continuity.md
-  - "10. 由复幂级数求三角级数": 10-trigonometric-series.md
-  - "11. 正弦无穷乘积的进一步应用": 11-product-applications.md
-  - "12. 复平面中的区域与边界": 12-regions.md
-  - "13. 复导数与柯西–黎曼方程": 13-derivatives.md
-  - "14. 初等函数的复平面映射": 14-mappings.md
-  - "15. 方程 $\\cos z=A+iB$ 的求解与值域": 15-cosine-equation.md
-  - "16. 整函数的值域：刘维尔定理与 Picard 小定理": 16-entire-functions.md
-  - "第三章 复积分": 17-complex-integrals.md
+  - "第一章 复数与初等函数": 01-complex-numbers.md
+  - "第二章 解析函数": 02-analytic-functions.md
+  - "第三章 复积分（Complex Integrals）": 03-complex-integrals.md
