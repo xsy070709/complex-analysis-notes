@@ -3,3 +3,4 @@ nav:
   - "第一章 复数与初等函数": 01-complex-numbers.md
   - "第二章 解析函数": 02-analytic-functions.md
   - "第三章 复积分（Complex Integrals）": 03-complex-integrals.md
+  - "第四章 级数": 04-series.md

@@ -9,12 +9,12 @@ source = re.sub(r'(?m)^(\$\$)\n(.*?)^\$\$',
                 lambda m: '\n$$\n' + m.group(2) + '$$\n', source, flags=re.S)
 source = re.sub(r'(?m)^> \$\$\n(.*?)^> \$\$',
                 lambda m: '>\n> $$\n' + m.group(1) + '> $$\n>', source, flags=re.S)
-parts = re.split(r'(?=^## 第[一二三]章)', source, flags=re.M)[1:]
-names = ['01-complex-numbers', '02-analytic-functions', '03-complex-integrals']
+parts = re.split(r'(?=^## 第[一二三四]章)', source, flags=re.M)[1:]
+names = ['01-complex-numbers', '02-analytic-functions', '03-complex-integrals', '04-series']
 assert len(parts) == len(names), len(parts)
 docs = root / 'docs'
 docs.mkdir(exist_ok=True)
-(docs / 'index.md').write_text('# 复变函数讲义\n\n按章阅读：第一章复数与初等函数，第二章解析函数，第三章复积分。章内小节可通过右侧目录跳转。\n', encoding='utf-8')
+(docs / 'index.md').write_text('# 复变函数讲义\n\n按章阅读：第一章复数与初等函数，第二章解析函数，第三章复积分，第四章级数。章内小节可通过右侧目录跳转。\n', encoding='utf-8')
 nav = ['  - 首页: index.md']
 for name, body in zip(names, parts):
     heading = body.splitlines()[0][3:]
