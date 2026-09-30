@@ -6,9 +6,9 @@ root = Path(__file__).parent
 source = (root / 'source' / '复变函数讲义.md').read_text(encoding='utf-8')
 # Keep display math in separate Markdown blocks so TeX row separators survive.
 source = re.sub(r'(?m)^(\$\$)\n(.*?)^\$\$',
-                lambda m: '\n$\n' + m.group(2) + '$\n', source, flags=re.S)
+                lambda m: '\n$$\n' + m.group(2) + '$$\n', source, flags=re.S)
 source = re.sub(r'(?m)^> \$\$\n(.*?)^> \$\$',
-                lambda m: '>\n> $\n' + m.group(1) + '> $\n>', source, flags=re.S)
+                lambda m: '>\n> $$\n' + m.group(1) + '> $$\n>', source, flags=re.S)
 parts = re.split(r'(?=^## 第[一二三]章)', source, flags=re.M)[1:]
 names = ['01-complex-numbers', '02-analytic-functions', '03-complex-integrals']
 assert len(parts) == len(names), len(parts)
