@@ -454,11 +454,11 @@ $$
 
 本节按完整板书的思路，对比三个幂级数：
 
-$
+$$
 f_1(z)=\sum_{n=0}^{\infty}z^n,\qquad
 f_2(z)=\sum_{n=1}^{\infty}\frac{z^n}{n},\qquad
 f_3(z)=\sum_{n=1}^{\infty}\frac{z^n}{n^2}.
-$
+$$
 
 这三个例子用来说明：**收敛半径相同，并不能决定收敛圆周上的敛散性。** 板书中的对数公式是第二例的求和结果，服务于边界行为的讨论。
 
@@ -466,11 +466,11 @@ $
 
 三个级数的非零系数分别为 $1$、$1/n$、$1/n^2$。由
 
-$
+$$
 \lim_{n\to\infty}1^{1/n}
 =\lim_{n\to\infty}(1/n)^{1/n}
 =\lim_{n\to\infty}(1/n^2)^{1/n}=1,
-$
+$$
 
 得到它们的收敛半径均为 $R=1$。也可分别对通项使用比值判别法。
 
@@ -480,15 +480,15 @@ $
 
 对 $f_1(z)=\sum_{n=0}^{\infty}z^n$，在 $|z|=1$ 时，
 
-$
+$$
 |z^n|=1,
-$
+$$
 
 通项不趋于零，故单位圆上每一点都发散。于是其收敛点集合恰为
 
-$
+$$
 \boxed{\{z:|z|<1\}.}
-$
+$$
 
 在圆内有 $f_1(z)=1/(1-z)$；在圆周上，除 $z=1$ 外这个有理函数仍有有限值，但几何级数本身不收敛。**函数的解析延拓有值，不能代替原级数的收敛判断。**
 
@@ -498,47 +498,47 @@ $
 
 **在 $z=1$：**
 
-$
+$$
 \sum_{n=1}^{\infty}\frac{1^n}{n}
 =\sum_{n=1}^{\infty}\frac1n
-$
+$$
 
 是发散的调和级数，部分和趋于 $+\infty$。此时不存在有限的级数和；板书所写的 $f_2(1)=+\infty$ 应理解为发散情况的简记。
 
 **在 $z=-1$：**
 
-$
+$$
 f_2(-1)=\sum_{n=1}^{\infty}\frac{(-1)^n}{n}=-\ln2.
-$
+$$
 
 它由交错级数判别法收敛，但绝对值级数为调和级数，因此条件收敛。
 
 **在任意其余圆周点：** 写 $z=e^{i\theta}$，$0<\theta<2\pi$，也就是 $z\ne1$。有限几何和满足
 
-$
+$$
 \left|\sum_{n=1}^{N}e^{in\theta}\right|
 =\left|\frac{e^{i\theta}(1-e^{iN\theta})}{1-e^{i\theta}}\right|
 \le\frac2{|1-e^{i\theta}|}.
-$
+$$
 
 其部分和有界，而 $1/n$ 单调趋于零。由 Dirichlet 判别法，
 
-$
+$$
 \sum_{n=1}^{\infty}\frac{e^{in\theta}}n
-$
+$$
 
 收敛。然而
 
-$
+$$
 \sum_{n=1}^{\infty}\left|\frac{e^{in\theta}}n\right|
 =\sum_{n=1}^{\infty}\frac1n=\infty,
-$
+$$
 
 故这些点都是条件收敛点。综上，其收敛点集合为
 
-$
+$$
 \boxed{\{z:|z|\le1,\ z\ne1\}.}
-$
+$$
 
 #### 补充推导：板书中第二例的对数求和公式
 
@@ -546,64 +546,64 @@ $
 
 在 $|z|<1$，对几何级数逐项积分：
 
-$
+$$
 \int_0^z\frac{d\zeta}{1-\zeta}
 =\sum_{n=0}^{\infty}\frac{z^{n+1}}{n+1}.
-$
+$$
 
 于是
 
-$
+$$
 \boxed{\sum_{n=1}^{\infty}\frac{z^n}{n}=-\operatorname{Log}(1-z),
 \qquad |z|<1.}
-$
+$$
 
 这里 $\operatorname{Log}$ 指主值对数，辐角取 $(-\pi,\pi)$。圆盘内 $\operatorname{Re}(1-z)>0$，故这一支解析，且在 $z=0$ 取零。
 
 对 $z=e^{i\theta}$，$0<\theta<2\pi$，有限几何和给出
 
-$
+$$
 \left|\sum_{n=1}^{N}e^{in\theta}\right|
 \le\frac2{|1-e^{i\theta}|}.
-$
+$$
 
 由 Dirichlet 判别法，$\sum e^{in\theta}/n$ 收敛。再用下一节的 Abel 边界极限定理，令 $r\to1^-$：
 
-$
+$$
 \sum_{n=1}^{\infty}\frac{e^{in\theta}}n
 =\lim_{r\to1^-}\sum_{n=1}^{\infty}\frac{r^ne^{in\theta}}n
 =-\operatorname{Log}(1-e^{i\theta}).
-$
+$$
 
 而
 
-$
+$$
 1-e^{i\theta}
 =2\sin\frac\theta2\,
 e^{\,i(\theta/2-\pi/2)},
-$
+$$
 
 其中 $\sin(\theta/2)>0$，且 $\theta/2-\pi/2\in(-\pi/2,\pi/2)$，因此
 
-$
+$$
 \boxed{
 \sum_{n=1}^{\infty}\frac{e^{in\theta}}n
 =-\ln\left(2\sin\frac\theta2\right)
 +i\frac{\pi-\theta}{2},
 \qquad 0<\theta<2\pi.
 }
-$
+$$
 
 分别取实部与虚部，得到
 
-$
+$$
 \boxed{
 \sum_{n=1}^{\infty}\frac{\cos n\theta}{n}
 =-\ln\left(2\sin\frac\theta2\right),\qquad
 \sum_{n=1}^{\infty}\frac{\sin n\theta}{n}
 =\frac{\pi-\theta}{2}.
 }
-$
+$$
 
 取 $\theta=\pi$，即得 $\sum_{n=1}^{\infty}(-1)^n/n=-\ln2$。当 $\theta=0$ 或 $2\pi$ 时，复级数变成调和级数而发散，不能套用上述公式。
 
@@ -611,23 +611,23 @@ $
 
 对 $f_3(z)=\sum_{n=1}^{\infty}z^n/n^2$，令 $z=e^{i\theta}$，则在单位圆上
 
-$
+$$
 \sum_{n=1}^{\infty}\left|\frac{z^n}{n^2}\right|
 =\sum_{n=1}^{\infty}\frac1{n^2}
 =\frac{\pi^2}{6}<\infty.
-$
+$$
 
 因此单位圆上每一点都绝对收敛，连同圆内，其收敛点集合为整个闭圆盘：
 
-$
+$$
 \boxed{\{z:|z|\le1\}.}
-$
+$$
 
 更强地，对于整个闭圆盘 $|z|\le1$，都有
 
-$
+$$
 \left|\frac{z^n}{n^2}\right|\le\frac1{n^2}.
-$
+$$
 
 **补充：** 由 Weierstrass 判别法，级数在闭圆盘上一致绝对收敛，和函数连续到边界。板书中的阴影圆盘表示闭圆盘全部属于收敛点集合；它的收敛半径仍为 $1$，因为圆外依然发散。
 
@@ -635,9 +635,9 @@ $
 
 | 板书例子 | 收敛半径 | 单位圆上的敛散性 | 全部收敛点 |
 | --- | --- | --- | --- |
-| $f_1(z)=\sum_{n=0}^{\infty}z^n$ | $1$ | 处处发散 | $|z|<1$ |
-| $f_2(z)=\sum_{n=1}^{\infty}z^n/n$ | $1$ | $z=1$ 发散，其余点条件收敛 | $|z|\le1$ 且 $z\ne1$ |
-| $f_3(z)=\sum_{n=1}^{\infty}z^n/n^2$ | $1$ | 处处绝对收敛 | $|z|\le1$ |
+| $f_1(z)=\sum_{n=0}^{\infty}z^n$ | $1$ | 处处发散 | $\lvert z\rvert<1$ |
+| $f_2(z)=\sum_{n=1}^{\infty}z^n/n$ | $1$ | $z=1$ 发散，其余点条件收敛 | $\lvert z\rvert\le1$ 且 $z\ne1$ |
+| $f_3(z)=\sum_{n=1}^{\infty}z^n/n^2$ | $1$ | 处处绝对收敛 | $\lvert z\rvert\le1$ |
 
 三个例子分别展示“边界全发散”“边界部分收敛”和“边界全绝对收敛”。所以，**收敛半径决定圆内与圆外的行为，收敛圆周必须逐点另行判断。**
 
