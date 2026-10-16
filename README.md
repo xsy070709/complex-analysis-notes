@@ -22,7 +22,7 @@ https://github.com/xsy070709/complex-analysis-notes/releases/download/pdf-latest
 本地构建（Debian/Ubuntu）：
 
 ```sh
-sudo apt-get install pandoc texlive-xetex texlive-lang-chinese texlive-latex-extra fonts-noto-cjk
+sudo apt-get install pandoc texlive-xetex texlive-lang-chinese texlive-latex-extra fonts-noto-cjk lmodern
 pip install -r requirements.txt
 python scripts/build_pdf.py
 mkdir -p docs/downloads

@@ -23,7 +23,7 @@ jobs:
       - name: Install PDF tools and Chinese fonts
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends pandoc texlive-xetex texlive-lang-chinese texlive-latex-extra fonts-noto-cjk
+          sudo apt-get install -y --no-install-recommends pandoc texlive-xetex texlive-lang-chinese texlive-latex-extra fonts-noto-cjk lmodern
       - name: Build and validate offline PDF
         run: |
           python scripts/build_pdf.py
