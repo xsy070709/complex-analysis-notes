@@ -1,0 +1,17 @@
+\usepackage{fancyhdr}
+\usepackage{etoolbox}
+\usepackage{needspace}
+\usepackage{fvextra}
+\AtBeginDocument{\hypersetup{bookmarksopen=true,bookmarksopenlevel=1,bookmarksdepth=3,pdfstartview=FitH}}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small 复变函数讲义}
+\fancyhead[R]{\small\hyperlink{notes-toc}{返回目录}}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{16pt}
+\setlength{\emergencystretch}{3em}
+\allowdisplaybreaks[2]
+\pretocmd{\tableofcontents}{\clearpage\hypertarget{notes-toc}{}}{}{}
+\apptocmd{\tableofcontents}{\clearpage}{}{}
+\pretocmd{\section}{\Needspace{6\baselineskip}}{}{}
+\pretocmd{\subsection}{\Needspace{5\baselineskip}}{}{}

@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+<p class="pdf-download-bar">
+  <a class="md-button" href="{{ 'downloads/complex-analysis-notes.pdf' | url }}" download>下载最新版 PDF</a>
+</p>
+{{ super() }}
+{% endblock %}

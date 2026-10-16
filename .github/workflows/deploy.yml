@@ -1,15 +1,15 @@
-name: Deploy notes
+name: Deploy notes and PDF
 on:
   push:
     branches: [main]
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,7 +20,21 @@ jobs:
           python-version: '3.12'
           cache: pip
       - run: pip install -r requirements.txt
+      - name: Install PDF tools and Chinese fonts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends pandoc texlive-xetex texlive-lang-chinese texlive-latex-extra fonts-noto-cjk
+      - name: Build and validate offline PDF
+        run: |
+          python scripts/build_pdf.py
+          mkdir -p docs/downloads
+          cp output/pdf/complex-analysis-notes.pdf docs/downloads/
       - run: mkdocs build --strict
+      - uses: actions/upload-artifact@v4
+        with:
+          name: notes-pdf
+          path: output/pdf/complex-analysis-notes.pdf
+          if-no-files-found: error
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
@@ -33,3 +47,33 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+  release:
+    runs-on: ubuntu-latest
+    needs: [build, deploy]
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: notes-pdf
+          path: pdf
+      - name: Replace the rolling PDF release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          NOTES_SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > release-notes.md <<EOF
+          完整讲义 PDF，含三级书签、可点击目录、返回目录链接及离线公式。
+
+          此 Release 为滚动更新版本，每次讲义更新后覆盖同名 PDF。
+          内容版本：${NOTES_SHA}
+          在线阅读：https://xsy070709.github.io/complex-analysis-notes/
+          EOF
+          if gh release view pdf-latest >/dev/null 2>&1; then
+            gh release upload pdf-latest pdf/complex-analysis-notes.pdf --clobber
+            gh api --method PATCH "repos/${GH_REPO}/git/refs/tags/pdf-latest" -f sha="$NOTES_SHA" -F force=true
+            gh release edit pdf-latest --title '复变函数讲义 · 最新 PDF' --notes-file release-notes.md --latest
+          else
+            gh release create pdf-latest pdf/complex-analysis-notes.pdf --target "$NOTES_SHA" --title '复变函数讲义 · 最新 PDF' --notes-file release-notes.md --latest
+          fi

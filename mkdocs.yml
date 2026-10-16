@@ -4,6 +4,7 @@ site_url: https://xsy070709.github.io/complex-analysis-notes/
 site_description: 复变函数课堂讲义
 theme:
   name: material
+  custom_dir: overrides
   language: zh
   features:
     - navigation.sections
