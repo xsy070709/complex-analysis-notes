@@ -6,13 +6,13 @@ import argparse
 import json
 import os
 import re
-import shutil
 import subprocess
 from urllib.parse import unquote
 
 import markdown
 import yaml
-from pypdf import PdfReader
+from pypdf import PdfReader, PdfWriter
+from pypdf.generic import ArrayObject, NameObject
 
 ROOT = Path(__file__).resolve().parents[1]
 READER = 'markdown+tex_math_dollars+tex_math_single_backslash-implicit_figures'
@@ -44,13 +44,78 @@ def nav_files(items):
                     yield value
 
 
+def outline_nodes(pdf):
+    outlines = pdf.root_object.get('/Outlines') if isinstance(pdf, PdfWriter) else pdf.trailer['/Root'].get('/Outlines')
+    stack = [outlines.get_object().get('/First')] if outlines else []
+    while stack:
+        ref = stack.pop()
+        if ref is None:
+            continue
+        node = ref.get_object()
+        yield node
+        stack.extend([node.get('/Next'), node.get('/First')])
+
+
+def direct_page_links(source, output):
+    """Replace named destinations with explicit local page/coordinate arrays.
+
+    Direct /GoTo arrays avoid reader-dependent named-destination lookup.
+    Work on the writer's destination table so page refs belong to the new PDF.
+    """
+    writer = PdfWriter(clone_from=source)
+    destinations = writer.named_destinations
+    converted = 0
+
+    def resolve(dest):
+        if isinstance(dest, str):
+            name = dest if dest in destinations else dest.lstrip('/')
+            if name not in destinations:
+                raise ValueError(f'Unresolved PDF destination: {dest}')
+            return ArrayObject(destinations[name].dest_array)
+        if isinstance(dest, ArrayObject):
+            return dest
+        raise ValueError(f'Unsupported PDF destination: {dest!r}')
+
+    def fix(node):
+        nonlocal converted
+        if '/Dest' in node:
+            node[NameObject('/Dest')] = resolve(node['/Dest'])
+            converted += 1
+        if '/A' in node:
+            action = node['/A'].get_object()
+            if action.get('/S') == '/GoTo':
+                action[NameObject('/D')] = resolve(action['/D'])
+                converted += 1
+
+    for page in writer.pages:
+        for ref in page.get('/Annots', []):
+            fix(ref.get_object())
+    for node in outline_nodes(writer):
+        fix(node)
+    writer.root_object[NameObject('/PageMode')] = NameObject('/UseOutlines')
+    writer.write(output)
+    print(f'Explicit local page destinations: {converted}')
+
+
 def validate_pdf(path, minimum_bookmarks):
     pdf = PdfReader(path)
     outlines = [n for n in walk(pdf.outline) if '/Title' in n]
     assert len(outlines) >= minimum_bookmarks, 'Missing chapter/section bookmarks'
     for node in outlines:
         assert pdf.get_destination_page_number(node) is not None
-    destinations = pdf.named_destinations
+    page_ids = {p.indirect_reference.idnum for p in pdf.pages}
+
+    def check_destination(dest):
+        assert isinstance(dest, ArrayObject), 'Named or URL destination remains'
+        assert dest[0].idnum in page_ids, 'Destination points outside this PDF'
+
+    for node in outline_nodes(pdf):
+        if '/Dest' in node:
+            check_destination(node['/Dest'])
+        elif '/A' in node:
+            action = node['/A'].get_object()
+            assert action.get('/S') == '/GoTo', 'Bookmark is not a local page jump'
+            check_destination(action['/D'])
     internal = 0
     for page in pdf.pages:
         for ref in page.get('/Annots', []):
@@ -61,8 +126,7 @@ def validate_pdf(path, minimum_bookmarks):
                 dest = action.get('/D')
             if dest is not None:
                 internal += 1
-                if isinstance(dest, str):
-                    assert dest in destinations, f'Broken PDF destination: {dest}'
+                check_destination(dest)
             if action.get('/S') == '/URI':
                 assert '.md' not in str(action.get('/URI')), 'Unconverted Markdown link'
     assert internal >= minimum_bookmarks, 'Missing clickable contents or back links'
@@ -158,7 +222,7 @@ def main():
         raise ValueError('Missing glyph in PDF; see tmp/pdfs/notes.log')
     widths = [float(x) for x in re.findall(r'Overfull \\hbox \(([\d.]+)pt too wide\)', log)]
     print(f'Largest horizontal overflow: {max(widths, default=0):.2f}pt')
-    shutil.copyfile(temp / 'notes.pdf', output)
+    direct_page_links(temp / 'notes.pdf', output)
     validate_pdf(output, expected_bookmarks)
     print(output)
 
