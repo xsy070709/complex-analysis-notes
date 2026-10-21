@@ -4,3 +4,4 @@ nav:
   - "第二章 解析函数": 02-analytic-functions.md
   - "第三章 复积分（Complex Integrals）": 03-complex-integrals.md
   - "第四章 级数": 04-series.md
+  - "第五章 留数": 05-residues.md
