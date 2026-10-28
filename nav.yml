@@ -5,3 +5,5 @@ nav:
   - "第三章 复积分（Complex Integrals）": 03-complex-integrals.md
   - "第四章 级数": 04-series.md
   - "第五章 留数": 05-residues.md
+  - "第六章 分式线性变换与共形映射": 06-conformal-mappings.md
+
